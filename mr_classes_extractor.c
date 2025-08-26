@@ -282,8 +282,8 @@ static void write_final_results_to_disk(SearchContext* ctx) {
     omp_set_lock(&ctx->file_lock);
     
     // Group results by taxonomy
-    TaxonomyGroup* groups[4] = {NULL}; // A, B, C, Simple
-    const char* taxonomy_names[] = {"A", "B", "C", "Simple"};
+    TaxonomyGroup* groups[3] = {NULL}; // A, B, C
+    const char* taxonomy_names[] = {"A", "B", "C"};
     
     // Group current results
     for (int i = 0; i < ctx->results->count; i++) {
@@ -307,7 +307,7 @@ static void write_final_results_to_disk(SearchContext* ctx) {
     }
     
     // Write groups to file
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         if (groups[i] != NULL && groups[i]->count > 0) {
             sort_n_values_in_group(groups[i]);
             
@@ -325,7 +325,7 @@ static void write_final_results_to_disk(SearchContext* ctx) {
     fflush(ctx->output_file);
     
     // Clean up groups
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         if (groups[i] != NULL) {
             destroy_taxonomy_group(groups[i]);
         }
@@ -470,7 +470,7 @@ static void add_m_value(MValues* mv, uint64_t m) {
 // Classify sequence taxonomy and return detailed analysis
 static TaxonomyAnalysis analyze_sequence_taxonomy(uint64_t n_start, uint64_t target_mr) {
     TaxonomyAnalysis result = {0};
-    result.taxonomy = 'S';
+    result.taxonomy = 'A';
     result.first_mr_pos = -1;
     result.second_mr_pos = -1;
     result.max_m_value = 0;
@@ -663,7 +663,7 @@ static void add_target_result(TargetResults* results, uint64_t n, const Taxonomy
             strcpy(results->taxonomies[results->count], "C");
             break;
         default:
-            strcpy(results->taxonomies[results->count], "Simple");
+            strcpy(results->taxonomies[results->count], "A");
             break;
     }
     
@@ -975,7 +975,6 @@ static void print_detailed_results_from_memory(const SearchContext* ctx) {
     printf(" Type A: %d (%.1f%%)\n", taxonomy_counts[0], (double)taxonomy_counts[0]/results->count*100);
     printf(" Type B: %d (%.1f%%)\n", taxonomy_counts[1], (double)taxonomy_counts[1]/results->count*100);
     printf(" Type C: %d (%.1f%%)\n", taxonomy_counts[2], (double)taxonomy_counts[2]/results->count*100);
-    printf(" Simple: %d (%.1f%%)\n", taxonomy_counts[3], (double)taxonomy_counts[3]/results->count*100);
     
     // Show summary statistics for positions and values
     if (results->count > 0) {
