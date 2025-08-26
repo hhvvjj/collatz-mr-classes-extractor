@@ -7,7 +7,7 @@ A high-performance parallel C program for discovering and classifying n values t
 This program analyzes Collatz sequences to find values of `n` that produce a specific repeated `m` parameter (`mr`) and classifies them into taxonomic categories based on the position of maximum values relative to repetition points. For each positive integer `n`, it computes the Collatz sequence, applies the transformation `m = (c - p) / 2` where `p = 2` if `c` is even, `p = 1` if `c` is odd, and analyzes the resulting sequence structure.
 
 - **High Performance**: Optimized parallel implementation using OpenMP
-- **Taxonomy Classification**: Automatic classification into types A, B, C, and Simple
+- **Taxonomy Classification**: Automatic classification into types A, B, C
 - **Detailed Analysis**: Tracks positions, maximum values, and sequence statistics
 - **Adaptive Scheduling**: Automatically chooses optimal work distribution strategy
 - **Memory Efficient**: Dynamic memory allocation with intelligent growth
@@ -20,7 +20,6 @@ This program analyzes Collatz sequences to find values of `n` that produce a spe
 - **Type A**: Maximum m occurs BEFORE the first mr repetition
 - **Type B**: Maximum m occurs BETWEEN first and second mr repetition  
 - **Type C**: Maximum m occurs AT or AFTER the second mr repetition
-- **Simple**: No parameter repetition found (sequence reaches trivial cycle)
 
 ## Dependencies
 
@@ -120,7 +119,6 @@ Taxonomy Distribution:
  Type A: 8821 (99.6%)
  Type B: 0 (0.0%)
  Type C: 32 (0.4%)
- Simple: 0 (0.0%)
 
 Statistics:
  Average first mr position: 64.7
